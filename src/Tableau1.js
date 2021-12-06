@@ -8,80 +8,62 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('vague', 'assets/vague.png')
         this.load.image('mer', 'assets/mer.jpg')
         this.load.image('ship', 'assets/ship.png')
+        this.load.image('ball', 'assets/boulet.png')
     }
+    createEnemy(){
+        this.shipE = this.physics.add.sprite(Phaser.Math.Between(0, 1728), Phaser.Math.Between(720, 900), 'ship')
+        this.shipE.setDepth(this.shipE.y+50)
+        this.ship.setGravityY(0)
 
-    getFrames(prefix, length) {
-        let frames = [];
-        for (let i = 1; i <= length; i++) {
-            frames.push({key: prefix + i});
+    }
+    createBall(){
+        this.ball=this.physics.add.sprite(this.ship.x,this.ship.y+100,'ball')
+        this.ball.setDepth(10000)
+        this.ball.setGravityY(1000)
         }
-        return frames;
-    }
-
-    /**
-     * Renvoie un tableau d'images
-     * @param {string} prefix Préfixe de la clé (key) à générer
-     * @param {string} url base d'url pour charger le fichier
-     * @param {Number} length combien d'images charger?
-     * @returns {*[]}
-     */
-    loadFrames(prefix, url, length) {
-        let frames = [];
-        for (let i = 1; i <= length; i++) {
-            this.load.image(prefix + i, url + i + '.png')
-        }
-        return frames;
-    }
-
-    constructor() {
-        super();
-    }
 
     create() {
         console.log(screen.width)
         console.log(screen.height)
         let xrand=Phaser.Math.Between(0, 1728)
         let xrand2=Phaser.Math.Between(0, 1728)
-        let yrand=Phaser.Math.Between(0, 15)
-        let yrand2=Phaser.Math.Between(0, 15)
+        let yrand=Phaser.Math.Between(670, 950)
+        let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
+
         this.ship = this.physics.add.sprite(300, 510, 'ship')
-        this.ship.setDepth(2)
-        this.shipE = this.physics.add.sprite(xrand, 650, 'ship')
-        this.shipE.setDepth(0)
-        this.shipE.setTintFill('#RGB00')
+        this.ship.setDepth(600)
         this.mer = this.add.image(screen.height, screen.height - 400, 'mer')
         this.vague = this.add.tileSprite(300 , 570,this.mer.width*4,131, "vague")
-        this.vague.setDepth(1)
+        this.vague.setDepth(this.vague.y)
         this.vague2 = this.add.tileSprite(250 , 600,this.mer.width*4,131, "vague")
-        this.vague2.setDepth(2)
+        this.vague2.setDepth(this.vague2.y)
         this.vague3 = this.add.tileSprite(300 , 620,this.mer.width*4,131,"vague")
-        this.vague3.setDepth(3)
+        this.vague3.setDepth(this.vague3.y)
         this.vague4 = this.add.tileSprite(250 , 650,this.mer.width*4,131,"vague")
-        this.vague4.setDepth(4)
+        this.vague4.setDepth(this.vague4.y)
         this.vague5 = this.add.tileSprite(300 , 670,this.mer.width*4,131, "vague")
-        this.vague5.setDepth(5)
+        this.vague5.setDepth(this.vague5.y)
         this.vague6 = this.add.tileSprite(250 , 700,this.mer.width*4,131, "vague")
-        this.vague6.setDepth(6)
+        this.vague6.setDepth(this.vague6.y)
         this.vague7 = this.add.tileSprite(300 , 720,this.mer.width*4,131, "vague")
-        this.vague7.setDepth(7)
+        this.vague7.setDepth(this.vague7.y)
         this.vague8 = this.add.tileSprite(250 , 750,this.mer.width*4,131, "vague")
-        this.vague8.setDepth(8)
+        this.vague8.setDepth(this.vague8.y)
         this.vague9 = this.add.tileSprite(300 , 770,this.mer.width*4,131, "vague")
-        this.vague9.setDepth(9)
+        this.vague9.setDepth(this.vague9.y)
         this.vague10 = this.add.tileSprite(250 , 800,this.mer.width*4,131, "vague")
-        this.vague10.setDepth(10)
-        this.shipE2 = this.physics.add.sprite(xrand2, 750, 'ship')
+        this.vague10.setDepth(this.vague10.y)
         this.vague11 = this.add.tileSprite(300 , 820,this.mer.width*4,131, "vague")
-        this.vague11.setDepth(11)
+        this.vague11.setDepth(this.vague11.y)
         this.vague12 = this.add.tileSprite(250 , 850,this.mer.width*4,131, "vague")
-        this.vague12.setDepth(12)
+        this.vague12.setDepth(this.vague12.y)
         this.vague13 = this.add.tileSprite(300 , 870,this.mer.width*4,131, "vague")
-        this.vague13.setDepth(13)
+        this.vague13.setDepth(this.vague13.y)
         this.vague14 = this.add.tileSprite(250 , 900,this.mer.width*4,131, "vague")
-        this.vague14.setDepth(14)
+        this.vague14.setDepth(this.vague14.y)
         this.vague15 = this.add.tileSprite(300 , 950,this.mer.width*4,131, "vague")
-        this.vague15.setDepth(15)
+        this.vague15.setDepth(this.vague15.y)
 
 
         this.vague2.setTintFill('#000000')
@@ -124,6 +106,7 @@ let tween3 = this.tweens.add({
         console.log(this.ship.height)
 
 
+
     }
     initKeyboard(){
         let me=this
@@ -139,6 +122,9 @@ let tween3 = this.tweens.add({
                         me.ship.flipX=true
                         me.speed=-10
                         break;
+                    case Phaser.Input.Keyboard.KeyCodes.SPACE:
+                        me.createBall()
+                            break;
                     case Phaser.Input.Keyboard.KeyCodes.N:
 
                         break;
@@ -149,6 +135,8 @@ let tween3 = this.tweens.add({
                     case Phaser.Input.Keyboard.KeyCodes.G:
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.A:
+                        me.createEnemy();
+                        console.log('ennemycreated')
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.Q:
                         break;
