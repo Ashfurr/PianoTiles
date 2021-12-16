@@ -1,39 +1,52 @@
 class Tableau1 extends Phaser.Scene {
 
-    /**
-     * Précharge les assets
-     */
 
     preload() {
         this.load.image('vague', 'assets/vague.png')
         this.load.image('mer', 'assets/mer.jpg')
         this.load.image('ship', 'assets/ship.png')
         this.load.image('ball', 'assets/boulet.png')
+        this.load.image('cloud1', 'assets/nuage1.png')
+        this.load.image('cloud2', 'assets/nuage2.png')
     }
     createEnemy(){
         this.shipE = this.physics.add.sprite(Phaser.Math.Between(0, 1728), Phaser.Math.Between(720, 900), 'ship')
         this.shipE.setDepth(this.shipE.y+50)
-        this.ship.setGravityY(0)
-
+        this.shipE.setGravityY(0)
+        this.shipE.setSize(50,10)
+        this.GshipE.push(this.shipE)
+        console.log(this.GshipE)
     }
     createBall(){
         this.ball=this.physics.add.sprite(this.ship.x,this.ship.y+100,'ball')
         this.ball.setDepth(10000)
         this.ball.setGravityY(1000)
-        }
+       this.Gball.push(this.ball)
+        console.log(this.Gball)
+    }
 
     create() {
-        console.log(screen.width)
-        console.log(screen.height)
+        this.Gball=[]
+        this.GshipE=[]
+        this.physics.add.collider(this.Gball, this.GshipE)
+
+
+
         let xrand=Phaser.Math.Between(0, 1728)
         let xrand2=Phaser.Math.Between(0, 1728)
         let yrand=Phaser.Math.Between(670, 950)
         let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
-
+        this.cloud=this.add.image(300,100,'cloud1')
+        this.cloud.setDepth(2)
+        this.cloud2=this.add.image(1300,100,'cloud2')
+        this.cloud2.setDepth(2)
+        this.cloud3=this.add.image(1300,300,'cloud1')
+        this.cloud3.setDepth(2)
         this.ship = this.physics.add.sprite(300, 510, 'ship')
         this.ship.setDepth(600)
         this.mer = this.add.image(screen.height, screen.height - 400, 'mer')
+        this.mer.setDepth(1)
         this.vague = this.add.tileSprite(300 , 570,this.mer.width*4,131, "vague")
         this.vague.setDepth(this.vague.y)
         this.vague2 = this.add.tileSprite(250 , 600,this.mer.width*4,131, "vague")
@@ -64,10 +77,6 @@ class Tableau1 extends Phaser.Scene {
         this.vague14.setDepth(this.vague14.y)
         this.vague15 = this.add.tileSprite(300 , 950,this.mer.width*4,131, "vague")
         this.vague15.setDepth(this.vague15.y)
-
-
-        this.vague2.setTintFill('#000000')
-
         let tween = this.tweens.add({
             targets: [this.vague,this.vague3,this.vague5,this.vague7,this.vague9,this.vague11,this.vague13,this.vague15],
             scaleY:0.7,
@@ -100,14 +109,15 @@ let tween3 = this.tweens.add({
 
 
 
-        this.initKeyboard();
+
+        this.initKeyboard()
         this.speed=0;
-        console.log(this.ship.width)
-        console.log(this.ship.height)
 
 
 
-    }
+
+
+}
     initKeyboard(){
         let me=this
             this.input.keyboard.on('keydown', function (kevent) {
@@ -122,9 +132,6 @@ let tween3 = this.tweens.add({
                         me.ship.flipX=true
                         me.speed=-10
                         break;
-                    case Phaser.Input.Keyboard.KeyCodes.SPACE:
-                        me.createBall()
-                            break;
                     case Phaser.Input.Keyboard.KeyCodes.N:
 
                         break;
@@ -134,10 +141,7 @@ let tween3 = this.tweens.add({
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.G:
                         break;
-                    case Phaser.Input.Keyboard.KeyCodes.A:
-                        me.createEnemy();
-                        console.log('ennemycreated')
-                        break;
+
                     case Phaser.Input.Keyboard.KeyCodes.Q:
                         break;
                 }
@@ -152,14 +156,18 @@ let tween3 = this.tweens.add({
                         me.speed=0
                         me.ship.angle=0
                         break;
+                    case Phaser.Input.Keyboard.KeyCodes.SPACE:
+                        me.createBall()
+                        break;
+                    case Phaser.Input.Keyboard.KeyCodes.A:
+                        me.createEnemy();
+                        console.log('ennemycreated')
+                        break;
                 }
             });
         }
 
-        update()
-        {
-
-
+        update(){
             if (-60>this.ship.angle<60){
                 this.couler=0
             }
@@ -186,8 +194,9 @@ let tween3 = this.tweens.add({
             if(this.ship.x>1728){
                 this.ship.x=0
             }
-            console.log(this.ship.x+this.ship.width)
+
         this.ship.x+=this.speed
+
 
 
 
