@@ -25,29 +25,91 @@ class Tableau1 extends Phaser.Scene {
        this.Gball.push(this.ball)
         console.log(this.Gball)
     }
+    createCloud(){
+        if(this.setCloud==0) {
+            this.cloud1 = this.add.image(300, 100, 'cloud1')
+            this.cloud1.setDepth(5)
+            this.cloud2 = this.add.image(1000, 100, 'cloud2')
+            this.cloud2.setDepth(5)
+            this.cloud3 = this.add.image(1300, 300, 'cloud1')
+            this.cloud3.setDepth(5)
+            this.setCloud = 1
+        }
+    }
+    tweencloud(){
+        if(this.setCloud==1){
+            let tweencloud = this.tweens.add({
+                targets: [this.cloud2],
+                x:2000,
+                ease: 'Bounce.easeInOut',
+                duration: 1500,
+            })
+            let tweencloud2 = this.tweens.add({
+                targets: [this.cloud3],
+                x:2000,
+                ease: 'Bounce.Out',
+                duration: 1500,
+            })
+            let tweencloud3 = this.tweens.add({
+                targets: [this.cloud1],
+                x:-500,
+                ease: 'Bounce.Out',
+                duration: 500,
+            })
+            this.setCloud=0
+        }
+    }
+    Filter(){
+        if (this.filterAlpha=0) {
+            this.time.addEvent({
+                delay: 500,
+                callback: () => {
+                    if (this.isleFilter.alpha <= 0.5) {
+                        this.isleFilter.alpha = this.isleFilter.alpha + 0.05
+                        // spawn a new apple
+                    }
+                },
+                loop: true
+            })
+        }
+        if (this.filterAlpha=1){
+            this.time.addEvent({
+                delay: 500,
+                callback: () => {
+                    if (this.isleFilter.alpha > 0.5) {
+                        this.isleFilter.alpha = this.isleFilter.alpha - 0.05
+                        // spawn a new apple
+                    }
+                },
+                loop: true
+            })
+        }
+    }
+   Shake(){
+           this.cameras.main.shake(2000)
+        }
+
+
 
     create() {
+        this.filterAlpha=0
+        this.setCloud=0
         this.Gball=[]
         this.GshipE=[]
         this.physics.add.collider(this.Gball, this.GshipE)
-
-
 
         let xrand=Phaser.Math.Between(0, 1728)
         let xrand2=Phaser.Math.Between(0, 1728)
         let yrand=Phaser.Math.Between(670, 950)
         let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
-        this.cloud1=this.add.image(300,100,'cloud1')
-        this.cloud1.setDepth(5)
-        this.cloud2=this.add.image(1000,100,'cloud2')
-        this.cloud2.setDepth(5)
-        this.cloud3=this.add.image(1300,300,'cloud1')
-        this.cloud3.setDepth(5)
+
         this.ship = this.physics.add.sprite(300, 490, 'ship')
         this.ship.setDepth(600)
         this.isle = this.add.image(100,1000, 'isle')
-        this.isle.setDepth(1)
+        this.isleFilter = this.add.image(100,1000, 'isle')
+        this.isleFilter.setTintFill(0x0000)
+        this.isleFilter.alpha=0
         this.mer = this.add.image(screen.height, screen.height - 400, 'mer')
         this.mer.visible=false
         this.vague = this.add.tileSprite(300 , 570,this.mer.width*4,131, "vague")
@@ -137,11 +199,15 @@ let tween3 = this.tweens.add({
                         me.speed=-10
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.C:
+                        me.createCloud()
+                        console.log(me.setCloud)
+                        break;
+                    case Phaser.Input.Keyboard.KeyCodes.V:
                         me.tweencloud()
                         break;
-                    case Phaser.Input.Keyboard.KeyCodes.P:
-                        break;
                     case Phaser.Input.Keyboard.KeyCodes.S:
+                        me.Filter()
+                        console.log(me.isleFilter.alpha)
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.G:
                         break;
@@ -170,27 +236,12 @@ let tween3 = this.tweens.add({
                 }
             });
         }
-        tweencloud(){
-            let tweencloud = this.tweens.add({
-                targets: [this.cloud2],
-                x:2000,
-                ease: 'Bounce.easeInOut',
-                duration: 1500,
-            })
-            let tweencloud2 = this.tweens.add({
-                targets: [this.cloud3],
-                x:2000,
-                ease: 'Bounce.Out',
-                duration: 1500,
-            })
-            let tweencloud3 = this.tweens.add({
-                targets: [this.cloud1],
-                x:-500,
-                ease: 'Bounce.Out',
-                duration: 500,
 
-        })}
         update(){
+            if(this.isleFilter.alpha>0.5 && this.filterAlpha==0){
+                this.Shake()
+                this.filterAlpha=1
+            }
 
             if (-60>this.ship.angle<60){
                 this.couler=0
@@ -215,7 +266,7 @@ let tween3 = this.tweens.add({
             if(this.ship.x+this.ship.width<0){
                 this.ship.x=1728
             }
-            if(this.ship.x>1728){
+            if(this.ship.x>1800){
                 this.ship.x=0
             }
 
