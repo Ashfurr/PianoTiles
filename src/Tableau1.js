@@ -118,6 +118,56 @@ class Tableau1 extends Phaser.Scene {
     Shake(){
            this.cameras.main.shake(2000)
     }
+    KrakenA(){
+        console.log('summon kraken')
+
+        let tweenKraken = this.tweens.add({
+            targets: [this.kraken,this.tentacle1,this.tentacle2],
+            y:450,
+            ease: 'Linear',
+            duration: 1500,
+            delay: 50,
+            repeat: 0,
+            yoyo: false,
+        })
+        let tweententacle1 = this.tweens.add({
+            targets: [this.tentacle3],
+            y:680,
+            ease: 'Linear',
+            duration: 1500,
+            delay: 50,
+            repeat: 0,
+            yoyo: false,
+        })
+        let tweententacle2 = this.tweens.add({
+            targets: [this.tentacle4],
+            y:380,
+            ease: 'Linear',
+            duration: 1500,
+            delay: 50,
+            repeat: 0,
+            yoyo: false,
+        })
+        this.time.addEvent({
+            delay: 2000,
+            callback: () => {
+                this.KrakenM()
+            }
+        })
+    }
+
+
+    KrakenM(){
+        let tweenkrakenF = this.tweens.add({
+            targets: [this.kraken],
+            y:470,
+            ease: 'Linear',
+            duration: 450,
+            delay: 50,
+            repeat: -1,
+            yoyo: true,
+        })
+    }
     allTweens(){
             let tween = this.tweens.add({
                 targets: [this.vague,this.vague3,this.vague5,this.vague7,this.vague9,this.vague11,this.vague13,this.vague15],
@@ -143,40 +193,14 @@ class Tableau1 extends Phaser.Scene {
                 targets: [this.ship],
                 y:520,
                 ease: 'Linear',
-                duration: 450,
-                delay: 50,
+                duration: 460,
+                delay: 20,
                 repeat: -1,
                 yoyo: true,
             })
-        let tweenKraken = this.tweens.add({
-                targets: [this.kraken,this.tentacle1,this.tentacle2],
-                y:450,
-                ease: 'Linear',
-                duration: 450,
-                delay: 50,
-                repeat: 0,
-                yoyo: false,
-            })
-        let tweententacle1 = this.tweens.add({
-                targets: [this.tentacle3],
-                y:680,
-                ease: 'Linear',
-                duration: 450,
-                delay: 50,
-                repeat: 0,
-                yoyo: false,
-            })
-        let tweententacle2 = this.tweens.add({
-                targets: [this.tentacle4],
-                y:380,
-                ease: 'Linear',
-                duration: 450,
-                delay: 50,
-                repeat: 0,
-                yoyo: false,
-            })
+
         }
-   allAnims(){
+    allAnims(){
        this.anims.create({
            key: 'IdleTF',
            frames: this.getFrames('tIdleF',59),
@@ -275,12 +299,13 @@ class Tableau1 extends Phaser.Scene {
         this.tentacle3.setDepth(800)
         this.tentacle4=this.add.sprite(1300,1380,'tAttackB1')
         this.tentacle4.setDepth(99)
-        this.allTentacles=this.add.container();
+
 
 
         this.initKeyboard()
         this.allTweens()
         this.speed=0;
+        this.speedK=0;
 }
     initKeyboard(){
         let me=this
@@ -311,7 +336,11 @@ class Tableau1 extends Phaser.Scene {
                         me.tentacle4.play('AttackTB')
                         break;
 
-                    case Phaser.Input.Keyboard.KeyCodes.Q:
+                    case Phaser.Input.Keyboard.KeyCodes.J:
+                            me.speedK=-5
+                        break;
+                    case Phaser.Input.Keyboard.KeyCodes.L:
+                            me.speedK=5
                         break;
                 }
             });
@@ -332,15 +361,23 @@ class Tableau1 extends Phaser.Scene {
                         me.createEnemy();
                         console.log('ennemycreated')
                         break;
+                    case Phaser.Input.Keyboard.KeyCodes.J:
+                        me.speedK=0
+                        break;
+                    case Phaser.Input.Keyboard.KeyCodes.L:
+                        me.speedK=0
+                        break;
                 }
             });
         }
 
         update(){
 
+
             if(this.isleFilter.alpha>0.5 && this.filterAlpha==0){
                 this.Shake()
                 this.filterAlpha=1
+                this.KrakenA()
             }
 
             if (-60>this.ship.angle<60){
@@ -370,7 +407,13 @@ class Tableau1 extends Phaser.Scene {
                 this.ship.x=0
             }
 
+
         this.ship.x+=this.speed
+        this.kraken.x+=this.speedK
+        this.tentacle1.x+=this.speedK
+        this.tentacle2.x+=this.speedK
+        this.tentacle3.x+=this.speedK
+        this.tentacle4.x+=this.speedK
 
 
 
