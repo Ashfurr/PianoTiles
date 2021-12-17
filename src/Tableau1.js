@@ -248,7 +248,7 @@ class Tableau1 extends Phaser.Scene {
         let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
         this.ship = this.physics.add.sprite(300, 490, 'ship')
-        this.ship.setDepth(600)
+        this.ship.setDepth(601)
         this.isle = this.add.image(100,1000, 'isle')
         this.isleFilter = this.add.image(100,1000, 'isle')
         this.isleFilter.setTintFill(0x0000)
