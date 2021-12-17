@@ -4,6 +4,7 @@ class Tableau1 extends Phaser.Scene {
     preload() {
         this.load.image('vague', 'assets/vague.png')
         this.load.image('mer', 'assets/mer.jpg')
+        this.load.image('isle', 'assets/isle.jpg')
         this.load.image('ship', 'assets/ship.png')
         this.load.image('ball', 'assets/boulet.png')
         this.load.image('cloud1', 'assets/nuage1.png')
@@ -37,16 +38,18 @@ class Tableau1 extends Phaser.Scene {
         let yrand=Phaser.Math.Between(670, 950)
         let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
-        this.cloud=this.add.image(300,100,'cloud1')
-        this.cloud.setDepth(2)
-        this.cloud2=this.add.image(1300,100,'cloud2')
-        this.cloud2.setDepth(2)
+        this.cloud1=this.add.image(300,100,'cloud1')
+        this.cloud1.setDepth(5)
+        this.cloud2=this.add.image(1000,100,'cloud2')
+        this.cloud2.setDepth(5)
         this.cloud3=this.add.image(1300,300,'cloud1')
-        this.cloud3.setDepth(2)
-        this.ship = this.physics.add.sprite(300, 510, 'ship')
+        this.cloud3.setDepth(5)
+        this.ship = this.physics.add.sprite(300, 490, 'ship')
         this.ship.setDepth(600)
+        this.isle = this.add.image(100,1000, 'isle')
+        this.isle.setDepth(1)
         this.mer = this.add.image(screen.height, screen.height - 400, 'mer')
-        this.mer.setDepth(1)
+        this.mer.visible=false
         this.vague = this.add.tileSprite(300 , 570,this.mer.width*4,131, "vague")
         this.vague.setDepth(this.vague.y)
         this.vague2 = this.add.tileSprite(250 , 600,this.mer.width*4,131, "vague")
@@ -117,6 +120,7 @@ let tween3 = this.tweens.add({
 
 
 
+
 }
     initKeyboard(){
         let me=this
@@ -132,8 +136,8 @@ let tween3 = this.tweens.add({
                         me.ship.flipX=true
                         me.speed=-10
                         break;
-                    case Phaser.Input.Keyboard.KeyCodes.N:
-
+                    case Phaser.Input.Keyboard.KeyCodes.C:
+                        me.tweencloud()
                         break;
                     case Phaser.Input.Keyboard.KeyCodes.P:
                         break;
@@ -166,8 +170,28 @@ let tween3 = this.tweens.add({
                 }
             });
         }
+        tweencloud(){
+            let tweencloud = this.tweens.add({
+                targets: [this.cloud2],
+                x:2000,
+                ease: 'Bounce.easeInOut',
+                duration: 1500,
+            })
+            let tweencloud2 = this.tweens.add({
+                targets: [this.cloud3],
+                x:2000,
+                ease: 'Bounce.Out',
+                duration: 1500,
+            })
+            let tweencloud3 = this.tweens.add({
+                targets: [this.cloud1],
+                x:-500,
+                ease: 'Bounce.Out',
+                duration: 500,
 
+        })}
         update(){
+
             if (-60>this.ship.angle<60){
                 this.couler=0
             }
