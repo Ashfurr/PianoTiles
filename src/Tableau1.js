@@ -257,7 +257,7 @@ class Tableau1 extends Phaser.Scene {
         this.musiquebg.setVolume(0.01)
         this.musiquebg.play()
         this.boulet=this.sound.add('boulet')
-        this.boulet.setVolume(0.5)
+        this.boulet.setVolume(0.1)
         this.god=this.sound.add('god')
         this.god.setVolume(0.1)
         this.cri=this.sound.add('cri')
