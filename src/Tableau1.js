@@ -254,12 +254,12 @@ class Tableau1 extends Phaser.Scene {
     create() {
         this.musiquebg=this.sound.add('pirate')
         this.musiquebg.mute=true
-        this.musiquebg.volume=0.01
+        this.musiquebg.setVolume(0.01)
         this.musiquebg.play()
         this.boulet=this.sound.add('boulet')
-        this.boulet.volume=0.5
+        this.boulet.setVolume(0.5)
         this.god=this.sound.add('god')
-        this.god.volume=0.1
+        this.god.setVolume(0.1)
         this.cri=this.sound.add('cri')
         this.cri.volume=0.1
         this.add.text(200, 32, 'you can click on| <-| ->| a | space | s | j | l | c | v |', { color: '#00000',fontSize:40 }).setDepth(999999);
