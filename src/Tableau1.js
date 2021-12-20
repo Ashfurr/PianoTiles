@@ -1,3 +1,5 @@
+
+
 class Tableau1 extends Phaser.Scene {
 
 
@@ -38,14 +40,13 @@ class Tableau1 extends Phaser.Scene {
         this.shipE.setGravityY(0)
         this.shipE.setSize(50,10)
         this.GshipE.push(this.shipE)
-        console.log(this.GshipE)
+
     }
     createBall(){
         this.ball=this.physics.add.sprite(this.ship.x,this.ship.y+100,'ball')
         this.ball.setDepth(10000)
         this.ball.setGravityY(1000)
-       this.Gball.push(this.ball)
-        console.log(this.Gball)
+        this.Gball.push(this.ball)
     }
     createCloud(){
         if(this.setCloud==0) {
@@ -57,6 +58,17 @@ class Tableau1 extends Phaser.Scene {
             this.cloud3.setDepth(5)
             this.setCloud = 1
         }
+    }
+    tweenshipR(){
+        this.tweens.add({
+            targets: [this.ship],
+            angle:360,
+            ease: 'Linear',
+            duration: 450,
+            delay: 50,
+            repeat: -1,
+            yoyo: true,
+        })
     }
     tweencloud(){
         if(this.setCloud==1){
@@ -83,28 +95,28 @@ class Tableau1 extends Phaser.Scene {
     }
     Filter() {
 
-            this.time.addEvent({
-                delay: 500,
-                callback: () => {
-                    if (this.isleFilter.alpha <= 0.5) {
-                        this.isleFilter.alpha = this.isleFilter.alpha + 0.05
+        this.time.addEvent({
+            delay: 500,
+            callback: () => {
+                if (this.isleFilter.alpha <= 0.5) {
+                    this.isleFilter.alpha = this.isleFilter.alpha + 0.05
 
-                    }
-                },
-                repeat: 10,
-            })
+                }
+            },
+            repeat: 10,
+        })
     }
     initFilter(){
-            this.time.addEvent({
-                delay: 500,
-                callback: () => {
-                    if (this.isleFilter.alpha > 0) {
-                        this.isleFilter.alpha = this.isleFilter.alpha - 0.05
+        this.time.addEvent({
+            delay: 500,
+            callback: () => {
+                if (this.isleFilter.alpha > 0) {
+                    this.isleFilter.alpha = this.isleFilter.alpha - 0.05
 
-                    }
-                },
-                repeat:10
-            })
+                }
+            },
+            repeat:10
+        })
     }
     chooseFilter(){
         if(this.filterAlpha==0){
@@ -116,7 +128,7 @@ class Tableau1 extends Phaser.Scene {
 
     }
     Shake(){
-           this.cameras.main.shake(2000)
+        this.cameras.main.shake(2000)
     }
     KrakenA(){
         console.log('summon kraken')
@@ -169,72 +181,74 @@ class Tableau1 extends Phaser.Scene {
         })
     }
     allTweens(){
-            let tween = this.tweens.add({
-                targets: [this.vague,this.vague3,this.vague5,this.vague7,this.vague9,this.vague11,this.vague13,this.vague15],
-                scaleY:0.7,
-                x:310,
-                ease: 'Exponential ease-in/out',
-                duration: 400,
-                delay: 50,
-                repeat: -1,
-                yoyo: true,
-            })
-            let tween2 = this.tweens.add({
-                targets: [this.vague2,this.vague4,this.vague6,this.vague8,this.vague10,this.vague12,this.vague14],
-                scaleY:0.8,
-                x:240,
-                ease: 'OutElastic',
-                duration: 450,
-                delay: 50,
-                repeat: -1,
-                yoyo: true,
-            })
-            let tweenShip = this.tweens.add({
-                targets: [this.ship],
-                y:520,
-                ease: 'Linear',
-                duration: 460,
-                delay: 20,
-                repeat: -1,
-                yoyo: true,
-            })
+        let tween = this.tweens.add({
+            targets: [this.vague,this.vague3,this.vague5,this.vague7,this.vague9,this.vague11,this.vague13,this.vague15],
+            scaleY:0.7,
+            x:310,
+            ease: 'Exponential ease-in/out',
+            duration: 400,
+            delay: 50,
+            repeat: -1,
+            yoyo: true,
+        })
+        let tween2 = this.tweens.add({
+            targets: [this.vague2,this.vague4,this.vague6,this.vague8,this.vague10,this.vague12,this.vague14],
+            scaleY:0.8,
+            x:240,
+            ease: 'OutElastic',
+            duration: 450,
+            delay: 50,
+            repeat: -1,
+            yoyo: true,
+        })
+        let tweenShip = this.tweens.add({
+            targets: [this.ship],
+            y:520,
+            ease: 'Linear',
+            duration: 460,
+            delay: 20,
+            repeat: -1,
+            yoyo: true,
+        })
 
-        }
+    }
     allAnims(){
-       this.anims.create({
-           key: 'IdleTF',
-           frames: this.getFrames('tIdleF',59),
-           frameRate: 32,
-           repeat: -1,
-           showOnStart:true,
+        this.anims.create({
+            key: 'IdleTF',
+            frames: this.getFrames('tIdleF',59),
+            frameRate: 32,
+            repeat: -1,
+            showOnStart:true,
 
-       })
-       this.anims.create({
-           key: 'IdleTB',
-           frames: this.getFrames('tIdleB',59),
-           frameRate: 24,
-           repeat: -1,
-           showOnStart:true,
+        })
+        this.anims.create({
+            key: 'IdleTB',
+            frames: this.getFrames('tIdleB',59),
+            frameRate: 24,
+            repeat: -1,
+            showOnStart:true,
 
-       })
-       this.anims.create({
-           key: 'AttackTF',
-           frames: this.getFrames('tAttackF',48),
-           frameRate: 24,
-           repeat: 0,
-
-
-       })
-       this.anims.create({
-           key: 'AttackTB',
-           frames: this.getFrames('tAttackB',48),
-           frameRate: 24,
-           repeat: 0,
+        })
+        this.anims.create({
+            key: 'AttackTF',
+            frames: this.getFrames('tAttackF',48),
+            frameRate: 24,
+            repeat: 0,
 
 
-       })
-   }
+        })
+        this.anims.create({
+            key: 'AttackTB',
+            frames: this.getFrames('tAttackB',48),
+            frameRate: 24,
+            repeat: 0,
+
+
+        })
+    }
     create() {
+        this.add.text(200, 32, 'you can click on| <-| ->| a | space | s | j | l | c | v |', { color: '#00000',fontSize:40 }).setDepth(999999);
+        this.add.text(200, 70, 'press r to suicide ', { color: '#00000',fontSize:20 }).setDepth(999999);
         this.allAnims()
         this.filterAlpha=0
         this.setCloud=0
@@ -248,7 +262,7 @@ class Tableau1 extends Phaser.Scene {
         let yrand2=Phaser.Math.Between(670, 950)
         this.couler=0
         this.ship = this.physics.add.sprite(300, 490, 'ship')
-        this.ship.setDepth(600)
+        this.ship.setDepth(601)
         this.isle = this.add.image(100,1000, 'isle')
         this.isleFilter = this.add.image(100,1000, 'isle')
         this.isleFilter.setTintFill(0x0000)
@@ -306,106 +320,108 @@ class Tableau1 extends Phaser.Scene {
         this.allTweens()
         this.speed=0;
         this.speedK=0;
-}
+    }
     initKeyboard(){
         let me=this
-            this.input.keyboard.on('keydown', function (kevent) {
-                switch (kevent.keyCode) {
-                    case Phaser.Input.Keyboard.KeyCodes.RIGHT:
-                        me.speed=10
-                        me.ship.angle-=5
-                        me.ship.flipX=false
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.LEFT:
-                        me.ship.angle+=5
-                        me.ship.flipX=true
-                        me.speed=-10
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.C:
-                        me.createCloud()
-                        console.log(me.setCloud)
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.V:
-                        me.tweencloud()
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.S:
-                        me.chooseFilter()
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.U:
-                        me.tentacle3.play('AttackTF')
-                        me.tentacle4.play('AttackTB')
-                        break;
+        this.input.keyboard.on('keydown', function (kevent) {
+            switch (kevent.keyCode) {
+                case Phaser.Input.Keyboard.KeyCodes.RIGHT:
+                    me.speed=10
+                    me.ship.angle-=5
+                    me.ship.flipX=false
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.LEFT:
+                    me.ship.angle+=5
+                    me.ship.flipX=true
+                    me.speed=-10
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.C:
+                    me.createCloud()
 
-                    case Phaser.Input.Keyboard.KeyCodes.J:
-                            me.speedK=-5
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.L:
-                            me.speedK=5
-                        break;
-                }
-            });
-            this.input.keyboard.on('keyup', function (kevent) {
-                switch (kevent.keyCode) {
-                    case Phaser.Input.Keyboard.KeyCodes.RIGHT:
-                        me.speed=0
-                        me.ship.angle=0
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.LEFT:
-                        me.speed=0
-                        me.ship.angle=0
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.SPACE:
-                        me.createBall()
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.A:
-                        me.createEnemy();
-                        console.log('ennemycreated')
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.J:
-                        me.speedK=0
-                        break;
-                    case Phaser.Input.Keyboard.KeyCodes.L:
-                        me.speedK=0
-                        break;
-                }
-            });
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.V:
+                    me.tweencloud()
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.S:
+                    me.chooseFilter()
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.U:
+                    me.tentacle3.play('AttackTF')
+                    me.tentacle4.play('AttackTB')
+                    break;
+
+                case Phaser.Input.Keyboard.KeyCodes.J:
+                    me.speedK=-5
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.L:
+                    me.speedK=5
+                    break;
+                    case Phaser.Input.Keyboard.KeyCodes.R:
+                    me.tweenshipR()
+                    break;
+            }
+        });
+        this.input.keyboard.on('keyup', function (kevent) {
+            switch (kevent.keyCode) {
+                case Phaser.Input.Keyboard.KeyCodes.RIGHT:
+                    me.speed=0
+                    me.ship.angle=0
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.LEFT:
+                    me.speed=0
+                    me.ship.angle=0
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.SPACE:
+                    me.createBall()
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.A:
+                    me.createEnemy();
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.J:
+                    me.speedK=0
+                    break;
+                case Phaser.Input.Keyboard.KeyCodes.L:
+                    me.speedK=0
+                    break;
+            }
+        });
+    }
+
+    update(){
+
+
+        if(this.isleFilter.alpha>0.5 && this.filterAlpha==0){
+            this.Shake()
+            this.filterAlpha=1
+            this.KrakenA()
         }
 
-        update(){
-
-
-            if(this.isleFilter.alpha>0.5 && this.filterAlpha==0){
-                this.Shake()
-                this.filterAlpha=1
-                this.KrakenA()
-            }
-
-            if (-60>this.ship.angle<60){
-                this.couler=0
-            }
-            if(this.ship.angle>60){
-                this.couler=1
-            }
-            if(this.ship.angle<-60){
-                this.couler=1
-            }
-            if(this.couler==1) {
-                let tweencouler = this.tweens.add({
-                    targets: [this.ship],
-                    y: this.ship.y + 150,
-                    ease: 'Linear',
-                    duration: 150,
-                    delay: 0,
-                    repeat: 1,
-                    yoyo: false,
-                })
-            }
-            if(this.ship.x+this.ship.width<0){
-                this.ship.x=1728
-            }
-            if(this.ship.x>1800){
-                this.ship.x=0
-            }
+        if (-60>this.ship.angle<60){
+            this.couler=0
+        }
+        if(this.ship.angle>60){
+            this.couler=1
+        }
+        if(this.ship.angle<-60){
+            this.couler=1
+        }
+        if(this.couler==1) {
+            let tweencouler = this.tweens.add({
+                targets: [this.ship],
+                y: this.ship.y + 150,
+                ease: 'Linear',
+                duration: 150,
+                delay: 0,
+                repeat: 1,
+                yoyo: false,
+            })
+        }
+        if(this.ship.x+this.ship.width<0){
+            this.ship.x=1728
+        }
+        if(this.ship.x>1800){
+            this.ship.x=0
+        }
 
 
         this.ship.x+=this.speed
@@ -418,9 +434,5 @@ class Tableau1 extends Phaser.Scene {
 
 
 
-        }
     }
-
-
-
-
+}
