@@ -12,6 +12,9 @@ class Tableau1 extends Phaser.Scene {
         this.load.image('cloud1', 'assets/nuage1.png')
         this.load.image('cloud2', 'assets/nuage2.png')
         this.load.image('kraken', 'assets/kraken/kraken.png')
+        this.load.audio('pirate', ['assets/pirate.mp3'])
+        this.load.audio('boulet', ['assets/canon.mp3'])
+        this.load.audio('god', ['assets/god.mp3'])
 
         /** chargement des anims**/
         for(let i=1;i<=59;i++) {
@@ -166,6 +169,7 @@ class Tableau1 extends Phaser.Scene {
                 this.KrakenM()
             }
         })
+        this.god.play()
     }
 
 
@@ -247,6 +251,14 @@ class Tableau1 extends Phaser.Scene {
         })
     }
     create() {
+        this.musiquebg=this.sound.add('pirate')
+        this.musiquebg.mute=true
+        this.musiquebg.volume=0.05
+        this.musiquebg.play()
+        this.boulet=this.sound.add('boulet')
+        this.boulet.volume=0.5
+        this.god=this.sound.add('god')
+        this.god.volume=0.1
         this.add.text(200, 32, 'you can click on| <-| ->| a | space | s | j | l | c | v |', { color: '#00000',fontSize:40 }).setDepth(999999);
         this.add.text(200, 70, 'press r to suicide ', { color: '#00000',fontSize:20 }).setDepth(999999);
         this.allAnims()
@@ -326,6 +338,7 @@ class Tableau1 extends Phaser.Scene {
         this.input.keyboard.on('keydown', function (kevent) {
             switch (kevent.keyCode) {
                 case Phaser.Input.Keyboard.KeyCodes.RIGHT:
+                    me.musiquebg.mute=false
                     me.speed=10
                     me.ship.angle-=5
                     me.ship.flipX=false
@@ -373,6 +386,7 @@ class Tableau1 extends Phaser.Scene {
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.SPACE:
                     me.createBall()
+                    me.boulet.play()
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.A:
                     me.createEnemy();
